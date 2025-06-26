@@ -1,0 +1,1408 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order History - Click Cuisine</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+  .navbar {
+      background-color: #A62C2C;
+    }
+    .navbar-brand {
+      color: #f2b704;
+      font-weight: bold;
+    }
+    .nav-link {
+      color: #FEBA17;
+      padding-left: 10px;
+    }
+    .nav-link:hover {
+      color: #fff;
+    }
+     .login-btn {
+            background-color: #FEBA17;
+            color: #A62C2C;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            margin-left: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .login-btn:hover {
+            background-color: var(--light-yellow);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+   
+    
+   
+    /* Main content styling - Enhanced */
+    .main-content {
+      min-height: calc(100vh - 120px);
+      padding: 30px 0;
+      background: linear-gradient(135deg, #f9f9f9 0%, #f1f1f1 100%);
+    }
+    .section-title {
+      color: #A31D1D;
+      border-bottom: 3px solid #FEBA17;
+      padding-bottom: 12px;
+      margin-bottom: 25px;
+      font-weight: 700;
+      position: relative;
+    }
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100px;
+      height: 3px;
+      background: #A31D1D;
+    }
+    
+    /* Enhanced Card Design */
+    .history-card {
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 25px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: none;
+      background: white;
+    }
+    .history-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+    }
+    .card-header {
+      background: linear-gradient(to right, #A31D1D, #C42D2D);
+      color: white;
+      padding: 18px 20px;
+      cursor: pointer;
+      border-bottom: 2px solid rgba(254, 186, 23, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-header h5 {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .card-header small {
+      opacity: 0.9;
+    }
+    .card-body {
+      padding: 25px;
+    }
+    
+    /* Enhanced Badges */
+    .badge {
+      padding: 8px 14px;
+      font-weight: 600;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .badge-pending {
+      background: linear-gradient(to right, #FFC107, #FFAB00);
+      color: #212529;
+    }
+    .badge-preparing {
+      background: linear-gradient(to right, #17A2B8, #2D9CDB);
+      color: white;
+    }
+    .badge-delivery {
+      background: linear-gradient(to right, #007BFF, #2D9CDB);
+      color: white;
+    }
+    .badge-completed {
+      background: linear-gradient(to right, #28A745, #5CB85C);
+      color: white;
+    }
+    .badge-canceled {
+      background: linear-gradient(to right, #DC3545, #C82333);
+      color: white;
+    }
+    .badge-confirmed {
+      background: linear-gradient(to right, #28A745, #5CB85C);
+      color: white;
+    }
+    
+    /* Enhanced Detail Items */
+    .detail-item {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .detail-item:hover {
+      background-color: rgba(163, 29, 29, 0.05);
+    }
+    .detail-item i {
+      width: 28px;
+      height: 28px;
+      color: white;
+      background-color: #A31D1D;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      font-size: 0.9rem;
+    }
+    
+    /* Enhanced Item List */
+    .item-list {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid #eee;
+    }
+    .item-list h6 {
+      color: #A31D1D;
+      font-weight: 600;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .item-list h6 i {
+      margin-right: 8px;
+    }
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      transition: all 0.2s;
+    }
+    .item-row:hover {
+      background-color: rgba(254, 186, 23, 0.05);
+    }
+    .item-row:last-child {
+      border-bottom: none;
+    }
+    .total-row {
+      font-weight: bold;
+      color: #A31D1D;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px solid #FEBA17;
+      font-size: 1.1rem;
+    }
+    
+    /* Enhanced Buttons */
+    .action-btn {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-weight: 500;
+      transition: all 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: inline-flex;
+      align-items: center;
+    }
+    .action-btn i {
+      margin-right: 6px;
+    }
+    .btn-modify {
+      background: linear-gradient(to right, #FEBA17, #FFD700);
+      color: #A31D1D;
+      border: none;
+    }
+    .btn-modify:hover {
+      background: linear-gradient(to right, #e0a800, #FFD700);
+      color: #A31D1D;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .btn-view {
+      background: linear-gradient(to right, #A31D1D, #C42D2D);
+      color: white;
+      border: none;
+    }
+    .btn-view:hover {
+      background: linear-gradient(to right, #7a1616, #A31D1D);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .btn-review {
+      background: linear-gradient(to right, #28A745, #5CB85C);
+      color: white;
+      border: none;
+    }
+    .btn-review:hover {
+      background: linear-gradient(to right, #218838, #4CAF50);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .btn-danger {
+      background: linear-gradient(to right, #DC3545, #C82333);
+      color: white;
+      border: none;
+    }
+    .btn-danger:hover {
+      background: linear-gradient(to right, #C82333, #DC3545);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    /* Enhanced Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #666;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .empty-state i {
+      font-size: 70px;
+      color: #A31D1D;
+      margin-bottom: 25px;
+      opacity: 0.8;
+    }
+    .empty-state h3 {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #A31D1D;
+    }
+    .empty-state p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+    .empty-state .btn {
+      padding: 10px 25px;
+      font-weight: 500;
+    }
+    
+    /* Enhanced Rating Stars */
+    .rating-stars {
+      color: #FEBA17;
+      font-size: 1.6rem;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .rating-stars i {
+      margin-right: 8px;
+      transition: all 0.2s ease;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .rating-stars i:hover {
+      transform: scale(1.2);
+    }
+    
+    /* Enhanced Review Form */
+    .review-form {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .review-form h6 {
+      color: #A31D1D;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .review-success i {
+      color: #28a745;
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+    .review-success {
+      padding: 15px;
+      border-radius: 8px;
+      background-color: rgba(40, 167, 69, 0.1);
+    }
+    
+    /* Enhanced Tabs */
+    .nav-tabs {
+      border-bottom: 2px solid rgba(163, 29, 29, 0.1);
+      margin-bottom: 30px;
+    }
+    .nav-tabs .nav-link {
+      color: #A31D1D;
+      border: none;
+      padding: 12px 25px;
+      font-weight: 600;
+      margin-right: 5px;
+      border-radius: 8px 8px 0 0;
+      transition: all 0.3s;
+      position: relative;
+      background-color: transparent;
+    }
+    .nav-tabs .nav-link.active {
+      color: #A31D1D;
+      background-color: rgba(254, 186, 23, 0.1);
+      border-bottom: 3px solid #FEBA17;
+    }
+    .nav-tabs .nav-link:hover:not(.active) {
+      color: #FEBA17;
+      background-color: rgba(254, 186, 23, 0.05);
+    }
+    
+    /* Progress Trackers */
+    .order-progress {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 20px 0 30px;
+    }
+    .order-progress:before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #eee;
+      z-index: 1;
+      border-radius: 2px;
+    }
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .progress-step.active .step-icon {
+      background: #28A745;
+      color: white;
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    }
+    .progress-step.completed .step-icon {
+      background: #28A745;
+      color: white;
+    }
+    .progress-step.pending .step-icon {
+      background: #FFC107;
+      color: #212529;
+    }
+    .step-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      transition: all 0.3s;
+    }
+    .step-label {
+      font-size: 0.8rem;
+      color: #666;
+      text-align: center;
+      max-width: 80px;
+    }
+    
+    /* Status Timeline */
+    .status-timeline {
+      position: relative;
+      padding-left: 30px;
+      margin: 20px 0;
+    }
+    .status-timeline:before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #A31D1D;
+      opacity: 0.2;
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 20px;
+    }
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+    .timeline-item:before {
+      content: '';
+      position: absolute;
+      left: -30px;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #A31D1D;
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px #A31D1D;
+    }
+    .timeline-item.completed:before {
+      background: #28A745;
+      box-shadow: 0 0 0 2px #28A745;
+    }
+    .timeline-item.pending:before {
+      background: #FFC107;
+      box-shadow: 0 0 0 2px #FFC107;
+    }
+    .timeline-date {
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+    .timeline-content {
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .badge {
+        margin-top: 10px;
+        align-self: flex-start;
+      }
+      .nav-tabs .nav-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+    }
+ footer {
+      background-color: #A31D1D;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      position: relative;
+    }
+    .footer-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .footer-section {
+      flex: 1;
+      min-width: 200px;
+      margin: 10px;
+    }
+    .footer-section h3 {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+    }
+    .footer-section p, .footer-section a {
+      margin: 5px 0;
+      color: #fff;
+      text-decoration: none;
+    }
+    .footer-section a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .footer-section {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <div class="img-responsive">
+        <img src="images/Restaurant.png" width="24%" height="20%" alt="Click Cuisine Logo">
+      </div>
+      <a class="navbar-brand" href="#">Click Cuisine</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="About.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="Menu.html">Menu</a></li>
+          <li class="nav-item"><a class="nav-link" href="Table,event.html">Table/Event</a></li>
+          <li class="nav-item"><a class="nav-link" href="Contact us.html">Contact us</a></li>
+        </ul>
+        <a href="form.html" class="btn login-btn">Login / Signup</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-content">
+    <div class="container">
+      <h2 class="section-title">My Orders & Reservations</h2>
+      
+      <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab">
+            <i class="fas fa-utensils me-2"></i>Orders
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reservations-tab" data-bs-toggle="tab" data-bs-target="#reservations" type="button" role="tab">
+            <i class="fas fa-calendar-alt me-2"></i>Reservations
+          </button>
+        </li>
+      </ul>
+      
+      <div class="tab-content" id="myTabContent">
+        <!-- Orders Tab -->
+        <div class="tab-pane fade show active" id="orders" role="tabpanel">
+          <div class="row">
+            <!-- Order Card 1 -->
+            <div class="col-lg-6">
+              <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#order1">
+                  <div>
+                    <h5 class="mb-0">Order #CC-2023-001</h5>
+                    <small class="text-white-50">Placed on: Oct 15, 2023 at 7:30 PM</small>
+                  </div>
+                  <span class="badge badge-preparing">Preparing</span>
+                </div>
+                <div class="collapse show" id="order1" data-bs-parent="#orders">
+                  <div class="card-body">
+                    <!-- Order Progress Tracker -->
+                    <div class="order-progress">
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Order Placed</div>
+                      </div>
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Confirmed</div>
+                      </div>
+                      <div class="progress-step active">
+                        <div class="step-icon">
+                          <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="step-label">Preparing</div>
+                      </div>
+                      <div class="progress-step">
+                        <div class="step-icon">
+                          <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="step-label">On the Way</div>
+                      </div>
+                      <div class="progress-step">
+                        <div class="step-icon">
+                          <i class="fas fa-home"></i>
+                        </div>
+                        <div class="step-label">Delivered</div>
+                      </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <div>Customer: <strong>John Smith</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-truck"></i>
+                      <div>Type: <strong>Delivery</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-credit-card"></i>
+                      <div>Payment: <strong>Online (Paid)</strong></div>
+                    </div>
+                    
+                    <div class="item-list">
+                      <h6><i class="fas fa-list-ul"></i> Order Items:</h6>
+                      <div class="item-row">
+                        <span>Margherita Pizza (x1)</span>
+                        <span>$12.99</span>
+                      </div>
+                      <div class="item-row">
+                        <span>Garlic Bread (x2)</span>
+                        <span>$5.98</span>
+                      </div>
+                      <div class="item-row">
+                        <span>Caesar Salad (x1)</span>
+                        <span>$8.50</span>
+                      </div>
+                      <div class="total-row">
+                        <span>Total:</span>
+                        <span>$27.47</span>
+                      </div>
+                    </div>
+                    
+                    <div class="status-timeline mt-4">
+                      <h6><i class="fas fa-history me-2"></i>Order Timeline</h6>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 15, 7:30 PM</div>
+                        <div class="timeline-content">Order placed successfully</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 15, 7:35 PM</div>
+                        <div class="timeline-content">Payment confirmed</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 15, 7:45 PM</div>
+                        <div class="timeline-content">Order confirmed by restaurant</div>
+                      </div>
+                      <div class="timeline-item">
+                        <div class="timeline-date">Estimated</div>
+                        <div class="timeline-content">Delivery expected by 8:30 PM</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Order Card 2 -->
+            <div class="col-lg-6">
+              <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#order2">
+                  <div>
+                    <h5 class="mb-0">Order #CC-2023-002</h5>
+                    <small class="text-white-50">Placed on: Oct 10, 2023 at 6:15 PM</small>
+                  </div>
+                  <span class="badge badge-completed">Completed</span>
+                </div>
+                <div class="collapse" id="order2" data-bs-parent="#orders">
+                  <div class="card-body">
+                    <div class="order-progress">
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Order Placed</div>
+                      </div>
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Confirmed</div>
+                      </div>
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Prepared</div>
+                      </div>
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Served</div>
+                      </div>
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Completed</div>
+                      </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <div>Customer: <strong>John Smith</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-utensils"></i>
+                      <div>Type: <strong>Dine-in</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-money-bill-wave"></i>
+                      <div>Payment: <strong>Cash on Delivery</strong></div>
+                    </div>
+                    
+                    <div class="item-list">
+                      <h6><i class="fas fa-list-ul"></i> Order Items:</h6>
+                      <div class="item-row">
+                        <span>Spaghetti Carbonara (x1)</span>
+                        <span>$14.99</span>
+                      </div>
+                      <div class="item-row">
+                        <span>Tiramisu (x1)</span>
+                        <span>$6.50</span>
+                      </div>
+                      <div class="item-row">
+                        <span>Red Wine (x2)</span>
+                        <span>$24.00</span>
+                      </div>
+                      <div class="total-row">
+                        <span>Total:</span>
+                        <span>$45.49</span>
+                      </div>
+                    </div>
+                    
+                    <div class="status-timeline mt-4">
+                      <h6><i class="fas fa-history me-2"></i>Order Timeline</h6>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 10, 6:15 PM</div>
+                        <div class="timeline-content">Order placed at table</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 10, 6:20 PM</div>
+                        <div class="timeline-content">Order confirmed by kitchen</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 10, 6:45 PM</div>
+                        <div class="timeline-content">Main course served</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 10, 7:30 PM</div>
+                        <div class="timeline-content">Dessert served</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 10, 8:00 PM</div>
+                        <div class="timeline-content">Payment received</div>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                      <button class="btn btn-review action-btn">
+                        <i class="fas fa-star"></i> Leave Review
+                      </button>
+                      <button class="btn btn-view action-btn">
+                        <i class="fas fa-redo"></i> Reorder
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Order Card 3 -->
+            <div class="col-lg-6">
+              <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#order3">
+                  <div>
+                    <h5 class="mb-0">Order #CC-2023-003</h5>
+                    <small class="text-white-50">Placed on: Oct 5, 2023 at 12:45 PM</small>
+                  </div>
+                  <span class="badge badge-canceled">Canceled</span>
+                </div>
+                <div class="collapse" id="order3" data-bs-parent="#orders">
+                  <div class="card-body">
+                    <div class="order-progress">
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Order Placed</div>
+                      </div>
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Confirmed</div>
+                      </div>
+                      <div class="progress-step canceled">
+                        <div class="step-icon">
+                          <i class="fas fa-times"></i>
+                        </div>
+                        <div class="step-label">Canceled</div>
+                      </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <div>Customer: <strong>John Smith</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-store"></i>
+                      <div>Type: <strong>Pick-up</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-credit-card"></i>
+                      <div>Payment: <strong>Online (Refunded)</strong></div>
+                    </div>
+                    
+                    <div class="item-list">
+                      <h6><i class="fas fa-list-ul"></i> Order Items:</h6>
+                      <div class="item-row">
+                        <span>Chicken Burger (x1)</span>
+                        <span>$9.99</span>
+                      </div>
+                      <div class="item-row">
+                        <span>French Fries (x1)</span>
+                        <span>$3.99</span>
+                      </div>
+                      <div class="item-row">
+                        <span>Soft Drink (x1)</span>
+                        <span>$2.50</span>
+                      </div>
+                      <div class="total-row">
+                        <span>Total:</span>
+                        <span>$16.48</span>
+                      </div>
+                    </div>
+                    
+                    <div class="status-timeline mt-4">
+                      <h6><i class="fas fa-history me-2"></i>Order Timeline</h6>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 5, 12:45 PM</div>
+                        <div class="timeline-content">Order placed successfully</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 5, 12:50 PM</div>
+                        <div class="timeline-content">Payment confirmed</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 5, 1:00 PM</div>
+                        <div class="timeline-content">Order confirmed by restaurant</div>
+                      </div>
+                      <div class="timeline-item">
+                        <div class="timeline-date">Oct 5, 1:30 PM</div>
+                        <div class="timeline-content">Order canceled by customer</div>
+                      </div>
+                      <div class="timeline-item">
+                        <div class="timeline-date">Oct 5, 2:00 PM</div>
+                        <div class="timeline-content">Refund processed</div>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                      <button class="btn btn-view action-btn">
+                        <i class="fas fa-redo"></i> Reorder
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Order Card 4 - Pending Status -->
+            <div class="col-lg-6">
+              <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#order4">
+                  <div>
+                    <h5 class="mb-0">Order #CC-2023-004</h5>
+                    <small class="text-white-50">Placed on: Oct 18, 2023 at 5:20 PM</small>
+                  </div>
+                  <span class="badge badge-pending">Pending</span>
+                </div>
+                <div class="collapse" id="order4" data-bs-parent="#orders">
+                  <div class="card-body">
+                    <div class="order-progress">
+                      <div class="progress-step completed">
+                        <div class="step-icon">
+                          <i class="fas fa-check"></i>
+                        </div>
+                        <div class="step-label">Order Placed</div>
+                      </div>
+                      <div class="progress-step pending">
+                        <div class="step-icon">
+                          <i class="fas fa-hourglass-half"></i>
+                        </div>
+                        <div class="step-label">Pending Confirmation</div>
+                      </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <div>Customer: <strong>John Smith</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-truck"></i>
+                      <div>Type: <strong>Delivery</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-credit-card"></i>
+                      <div>Payment: <strong>Online (Paid)</strong></div>
+                    </div>
+                    
+                    <div class="item-list">
+                      <h6><i class="fas fa-list-ul"></i> Order Items:</h6>
+                      <div class="item-row">
+                        <span>Pepperoni Pizza (x1)</span>
+                        <span>$14.99</span>
+                      </div>
+                      <div class="item-row">
+                        <span>Mozzarella Sticks (x1)</span>
+                        <span>$6.99</span>
+                      </div>
+                      <div class="item-row">
+                        <span>Soft Drink (x2)</span>
+                        <span>$5.00</span>
+                      </div>
+                      <div class="total-row">
+                        <span>Total:</span>
+                        <span>$26.98</span>
+                      </div>
+                    </div>
+                    
+                    <div class="status-timeline mt-4">
+                      <h6><i class="fas fa-history me-2"></i>Order Timeline</h6>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 18, 5:20 PM</div>
+                        <div class="timeline-content">Order placed successfully</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 18, 5:25 PM</div>
+                        <div class="timeline-content">Payment confirmed</div>
+                      </div>
+                      <div class="timeline-item pending">
+                        <div class="timeline-date">Waiting</div>
+                        <div class="timeline-content">Restaurant confirmation pending</div>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                      <button class="btn btn-modify action-btn">
+                        <i class="fas fa-edit"></i> Modify Order
+                      </button>
+                      <button class="btn btn-danger action-btn">
+                        <i class="fas fa-times"></i> Cancel Order
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Empty state (hidden by default) -->
+            <div class="col-12 empty-state d-none">
+              <i class="fas fa-shopping-bag"></i>
+              <h3>No Orders Yet</h3>
+              <p>You haven't placed any orders with us yet.</p>
+              <a href="Menu.html" class="btn btn-modify">Browse Menu</a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reservations Tab -->
+        <div class="tab-pane fade" id="reservations" role="tabpanel">
+          <div class="row">
+            <!-- Reservation Card 1 -->
+            <div class="col-lg-6">
+              <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#reservation3">
+                  <div>
+                    <h5 class="mb-0">Reservation #CC-R-2023-003</h5>
+                    <small class="text-white-50">Booked for: Sep 30, 2023 at 6:00 PM</small>
+                  </div>
+                  <span class="badge badge-canceled">Canceled</span>
+                </div>
+                <div class="collapse" id="reservation3" data-bs-parent="#reservations">
+                  <div class="card-body">
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <div>Customer: <strong>John Smith</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-envelope"></i>
+                      <div>Email: <strong>john.smith@example.com</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-phone"></i>
+                      <div>Phone: <strong>(555) 123-4567</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-users"></i>
+                      <div>Guests: <strong>2</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-chair"></i>
+                      <div>Table: <strong>#5 (Cancelled)</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-calendar-check"></i>
+                      <div>Event: <strong>Dinner</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-clipboard-list"></i>
+                      <div>Special Requests: <strong>None</strong></div>
+                    </div>
+                    <div class="menu-order-section mt-3">
+                      <h6><i class="fas fa-utensils"></i> Pre-Ordered Menu Items</h6>
+                      <div class="item-list">
+                        <div class="item-row">
+                          <span>Grilled Salmon (x2)</span>
+                          <span>$29.98</span>
+                        </div>
+                        <div class="item-row">
+                          <span>Truffle Pasta (x1)</span>
+                          <span>$18.50</span>
+                        </div>
+                        <div class="item-row">
+                          <span>Chocolate Lava Cake (x2)</span>
+                          <span>$15.00</span>
+                        </div>
+                        <div class="total-row">
+                          <span>Subtotal:</span>
+                          <span>$63.48</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="status-timeline mt-4">
+                      <h6><i class="fas fa-history me-2"></i>Reservation Timeline</h6>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Sep 28, 4:30 PM</div>
+                        <div class="timeline-content">Reservation booked</div>
+                      </div>
+                      
+                      <div class="timeline-item">
+                        <div class="timeline-date">Sep 29, 2:15 PM</div>
+                        <div class="timeline-content">Reservation canceled</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reservation Card 2 -->
+            <div class="col-lg-6">
+              <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#reservation4">
+                  <div>
+                    <h5 class="mb-0">Reservation #CC-R-2023-004</h5>
+                    <small class="text-white-50">Booked for: Nov 5, 2023 at 7:00 PM</small>
+                  </div>
+                  <span class="badge badge-pending">Pending</span>
+                </div>
+                <div class="collapse" id="reservation4" data-bs-parent="#reservations">
+                  <div class="card-body">
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <div>Customer: <strong>John Smith</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-envelope"></i>
+                      <div>Email: <strong>john.smith@example.com</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-phone"></i>
+                      <div>Phone: <strong>(555) 123-4567</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-users"></i>
+                      <div>Guests: <strong>6</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-chair"></i>
+                      <div>Table: <strong>Pending Assignment</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-calendar-check"></i>
+                      <div>Event: <strong>Family Dinner</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-clipboard-list"></i>
+                      <div>Special Requests: <strong>High chair needed for toddler</strong></div>
+                    </div>
+                    
+                    <div class="status-timeline mt-4">
+                      <h6><i class="fas fa-history me-2"></i>Reservation Timeline</h6>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 20, 3:45 PM</div>
+                        <div class="timeline-content">Reservation requested</div>
+                      </div>
+                      <div class="timeline-item pending">
+                        <div class="timeline-date">Waiting</div>
+                        <div class="timeline-content">Confirmation pending from restaurant</div>
+                      </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                      <button class="btn btn-danger action-btn">
+                        <i class="fas fa-times"></i> Cancel Reservation
+                      </button>
+                      <button class="btn btn-modify action-btn">
+                        <i class="fas fa-edit"></i> Modify Reservation
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reservation Card 3 -->
+            <div class="col-lg-6">
+              <div class="card history-card">
+                <div class="card-header d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#reservation5">
+                  <div>
+                    <h5 class="mb-0">Reservation #CC-R-2023-005</h5>
+                    <small class="text-white-50">Booked for: Oct 18, 2023 at 6:30 PM</small>
+                  </div>
+                  <span class="badge badge-confirmed">Confirmed</span>
+                </div>
+                <div class="collapse" id="reservation5" data-bs-parent="#reservations">
+                  <div class="card-body">
+                    <!-- Reservation Details -->
+                    <div class="detail-item">
+                      <i class="fas fa-user"></i>
+                      <div>Customer: <strong>John Smith</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-envelope"></i>
+                      <div>Email: <strong>john.smith@example.com</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-phone"></i>
+                      <div>Phone: <strong>(555) 123-4567</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-users"></i>
+                      <div>Guests: <strong>2</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-chair"></i>
+                      <div>Table: <strong>#8 </strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-calendar-check"></i>
+                      <div>Event: <strong>Dinner</strong></div>
+                    </div>
+                    <div class="detail-item">
+                      <i class="fas fa-clipboard-list"></i>
+                      <div>Special Requests: <strong>Candlelight preferred</strong></div>
+                    </div>
+                    <div class="menu-order-section mt-3">
+                      <h6><i class="fas fa-utensils"></i> Pre-Ordered Menu Items</h6>
+                      <div class="item-list">
+                        <div class="item-row">
+                          <span>Grilled Salmon (x2)</span>
+                          <span>$29.98</span>
+                        </div>
+                        <div class="item-row">
+                          <span>Truffle Pasta (x1)</span>
+                          <span>$18.50</span>
+                        </div>
+                        <div class="item-row">
+                          <span>Chocolate Lava Cake (x2)</span>
+                          <span>$15.00</span>
+                        </div>
+                        <div class="total-row">
+                          <span>Subtotal:</span>
+                          <span>$63.48</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="status-timeline mt-4">
+                      <h6><i class="fas fa-history me-2"></i>Reservation Timeline</h6>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 15, 2:30 PM</div>
+                        <div class="timeline-content">Reservation booked</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 15, 2:35 PM</div>
+                        <div class="timeline-content">Confirmation email sent</div>
+                      </div>
+                      <div class="timeline-item completed">
+                        <div class="timeline-date">Oct 16, 11:00 AM</div>
+                        <div class="timeline-content">Menu pre-order received</div>
+                      </div>
+                      <div class="timeline-item">
+                        <div class="timeline-date">Upcoming</div>
+                        <div class="timeline-content">Reservation scheduled for Oct 18, 6:30 PM</div>
+                      </div>
+                    </div>
+                    
+                    <!-- Review Form (Initially Hidden) -->
+                    <form class="review-form mt-4" style="display: none;">
+                      <h6>Write Your Review</h6>
+                      <div class="mb-3">
+                        <label class="form-label">Rating</label>
+                        <div class="rating-stars">
+                          <input type="hidden" name="rating" value="0">
+                          <i class="far fa-star" data-value="1"></i>
+                          <i class="far fa-star" data-value="2"></i>
+                          <i class="far fa-star" data-value="3"></i>
+                          <i class="far fa-star" data-value="4"></i>
+                          <i class="far fa-star" data-value="5"></i>
+                        </div>
+                      </div>
+                      
+                      <div class="mb-3">
+                        <label class="form-label">Your Review</label>
+                        <textarea class="form-control" name="review" rows="3" required placeholder="Share your experience..."></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-review action-btn">
+                        <i class="fas fa-paper-plane"></i> Submit Review
+                      </button>
+                      <button type="button" class="btn btn-secondary action-btn cancel-review">
+                        Cancel
+                      </button>
+                    </form>
+                    
+                    <!-- Review Success Message (Initially Hidden) -->
+                    <div class="alert alert-success mt-3 review-success" style="display: none;">
+                      <i class="fas fa-check-circle"></i> Thank you for your review!
+                    </div>
+                    
+                    <!-- Leave Review Button -->
+                    <div class="mt-4 leave-review-btn-container">
+                      <button class="btn btn-review action-btn leave-review-btn">
+                        <i class="fas fa-star"></i> Leave Review
+                      </button>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Empty state (hidden by default) -->
+            <div class="col-12 empty-state d-none">
+              <i class="fas fa-calendar-alt"></i>
+              <h3>No Reservations Yet</h3>
+              <p>You haven't made any reservations with us yet.</p>
+              <a href="Table,event.html" class="btn btn-modify">Book a Table</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+  
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p style="color: #FEBA17;">31-C Muslim Town, Noon Avenue, Lahore</p>
+        <p style="color: #FEBA17;">Email: ClickCuisine@gmail.com</p>
+        <p style="color: #FEBA17;">Phone: +92 234567899</p>
+      </div>
+      <div class="footer-section">
+        <h3>Opening Hours</h3>
+        <p style="color: #FEBA17;">Monday - Friday: 11 AM - 10 PM</p>
+        <p style="color: #FEBA17;">Saturday - Sunday: 10 AM - 11 PM</p>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <a href="https://www.facebook.com" target="_blank" style="color: #FEBA17;">Facebook</a><br>
+        <a href="https://www.instagram.com" target="_blank" style="color: #FEBA17;">Instagram</a><br>
+        <a href="https://www.twitter.com" target="_blank" style="color: #FEBA17;">Twitter</a>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="Home.html" style="color: #FEBA17;">Home</a><br>
+        <a href="About.html" style="color: #FEBA17;">About</a><br>
+        <a href="Menu.html" style="color: #FEBA17;">Menu</a><br>
+        <a href="Table,event.html" style="color: #FEBA17;">Table/Event</a><br>
+        <a href="Contact us.html" style="color: #FEBA17;">Contact us</a>
+      </div>
+    </div>
+  </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // JavaScript for additional interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+      // Collapse all but the first card in each section
+      const firstOrderCard = document.querySelector('#orders .card:first-child .collapse');
+      const firstReservationCard = document.querySelector('#reservations .card:first-child .collapse');
+      
+      if (firstOrderCard) {
+        new bootstrap.Collapse(firstOrderCard, {toggle: true});
+      }
+      if (firstReservationCard) {
+        new bootstrap.Collapse(firstReservationCard, {toggle: true});
+      }
+      
+      // Rating stars functionality
+      const ratingStars = document.querySelectorAll('.rating-stars i');
+      ratingStars.forEach(star => {
+        star.addEventListener('click', function() {
+          const value = this.getAttribute('data-value');
+          const starsContainer = this.parentElement;
+          const hiddenInput = starsContainer.querySelector('input[type="hidden"]');
+          hiddenInput.value = value;
+          
+          starsContainer.querySelectorAll('i').forEach((s, index) => {
+            if (index < value) {
+              s.classList.remove('far');
+              s.classList.add('fas');
+            } else {
+              s.classList.remove('fas');
+              s.classList.add('far');
+            }
+          });
+        });
+      });
+      
+      // Review form toggle
+      const leaveReviewBtns = document.querySelectorAll('.leave-review-btn');
+      leaveReviewBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const card = this.closest('.card-body');
+          const form = card.querySelector('.review-form');
+          const btnContainer = card.querySelector('.leave-review-btn-container');
+          
+          form.style.display = 'block';
+          btnContainer.style.display = 'none';
+        });
+      });
+      
+      const cancelReviewBtns = document.querySelectorAll('.cancel-review');
+      cancelReviewBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const form = this.closest('.review-form');
+          const cardBody = form.closest('.card-body');
+          const btnContainer = cardBody.querySelector('.leave-review-btn-container');
+          
+          form.style.display = 'none';
+          btnContainer.style.display = 'block';
+          
+          // Reset stars
+          const stars = form.querySelectorAll('.rating-stars i');
+          stars.forEach(star => {
+            star.classList.remove('fas');
+            star.classList.add('far');
+          });
+          form.querySelector('input[type="hidden"]').value = '0';
+          
+          // Reset textarea
+          form.querySelector('textarea').value = '';
+        });
+      });
+      
+      // Form submission
+      const reviewForms = document.querySelectorAll('.review-form');
+      reviewForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          const cardBody = this.closest('.card-body');
+          const successMsg = cardBody.querySelector('.review-success');
+          const btnContainer = cardBody.querySelector('.leave-review-btn-container');
+          
+          // Here you would typically send the data to your server
+          // For demonstration, we'll just show the success message
+          this.style.display = 'none';
+          successMsg.style.display = 'block';
+          
+          // Hide the success message after 3 seconds
+          setTimeout(() => {
+            successMsg.style.display = 'none';
+            btnContainer.style.display = 'block';
+          }, 3000);
+        });
+      });
+    });
+  </script>
+
+  
+</body>
+</html>
